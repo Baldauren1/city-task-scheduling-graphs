@@ -8,14 +8,13 @@ import java.io.IOException;
 import java.util.*;
 
 /**
- * Improved DataGenerator:
- * - Creates 9 datasets (small, medium, large)
- * - Controls density (sparse vs dense)
- * - Generates both cyclic and acyclic (DAG) graphs
- * - Prints ready-to-use summary for the report
+ * Final version of DataGenerator:
+ * Creates 9 datasets (small, medium, large)
+ * Uses both cyclic and acyclic (DAG) graphs
+ * Supports density control (sparse vs dense)
+ * Prevents infinite loops with iteration limits
  */
 public class DataGenerator {
-
     private static final Random rnd = new Random();
 
     public static void main(String[] args) throws IOException {
@@ -25,23 +24,23 @@ public class DataGenerator {
         System.out.println(" Dataset | Vertices | Edges | Density | Type | Directed ");
         System.out.println("------------------------------------------------------------");
 
-        // Small (6–10 nodes)
-        generateDataset("data/dataset_small_1.json", 6, 0.2, true, false);
-        generateDataset("data/dataset_small_2.json", 8, 0.4, true, true);
-        generateDataset("data/dataset_small_3.json", 9, 0.3, true, false);
+        // SMALL (6–10 nodes)
+        generateDataset("data/dataset_small_1.json", 6, 0.2, true, false); // cyclic, sparse
+        generateDataset("data/dataset_small_2.json", 8, 0.4, true, true);  // DAG, medium
+        generateDataset("data/dataset_small_3.json", 9, 0.3, true, false); // cyclic, medium
 
-        // Medium (10–20 nodes)
-        generateDataset("data/dataset_med_1.json", 12, 0.3, true, false);
-        generateDataset("data/dataset_med_2.json", 15, 0.7, true, true);
-        generateDataset("data/dataset_med_3.json", 18, 0.5, true, false);
+        // MEDIUM (10–20 nodes)
+        generateDataset("data/dataset_med_1.json", 12, 0.3, true, false);  // cyclic
+        generateDataset("data/dataset_med_2.json", 15, 0.5, true, true);   // DAG, balanced
+        generateDataset("data/dataset_med_3.json", 18, 0.4, true, false);  // cyclic
 
-        // Large (20–50 nodes)
-        generateDataset("data/dataset_large_1.json", 22, 0.2, true, false);
-        generateDataset("data/dataset_large_2.json", 30, 0.6, true, true);
-        generateDataset("data/dataset_large_3.json", 45, 0.8, true, false);
+        // LARGE (20–50 nodes)
+        generateDataset("data/dataset_large_1.json", 22, 0.25, true, false); // cyclic, sparse
+        generateDataset("data/dataset_large_2.json", 30, 0.5, true, true);   // DAG, dense
+        generateDataset("data/dataset_large_3.json", 45, 0.7, true, false);  // cyclic, dense
 
         System.out.println("------------------------------------------------------------");
-        System.out.println(" All datasets generated successfully.");
+        System.out.println("All datasets generated successfully.");
     }
 
     /**
@@ -55,18 +54,21 @@ public class DataGenerator {
      */
     public static void generateDataset(String filename, int n, double density, boolean directed, boolean isDAG) throws IOException {
         int maxEdges = directed ? n * (n - 1) : n * (n - 1) / 2;
-        int edgeCount = Math.max(1, (int) (density * maxEdges));
+        int targetEdges = Math.max(1, (int) (density * maxEdges));
 
         List<Map<String, Object>> edges = new ArrayList<>();
         Set<String> used = new HashSet<>();
 
-        // Generate edges
-        while (edges.size() < edgeCount) {
+        int maxAttempts = n * n * 5; // safety limit to prevent infinite loop
+        int attempts = 0;
+
+        while (edges.size() < targetEdges && attempts < maxAttempts) {
             int u = rnd.nextInt(n);
             int v = rnd.nextInt(n);
-            if (u == v) continue;
+            attempts++;
 
-            if (isDAG && u >= v) continue; // enforce acyclic order
+            if (u == v) continue;
+            if (isDAG && u >= v) continue; // enforce acyclic property
 
             String key = u + "-" + v;
             if (used.contains(key)) continue;
@@ -79,7 +81,12 @@ public class DataGenerator {
             edges.add(e);
         }
 
-// Add guaranteed SCCs if cyclic
+        if (edges.size() < targetEdges) {
+            System.out.printf("Warning: only %d edges generated (target was %d) for %s%n",
+                    edges.size(), targetEdges, filename);
+        }
+
+// Add small guaranteed SCCs for cyclic graphs
         if (!isDAG && n >= 6) {
             edges.add(Map.of("u", 0, "v", 1, "w", 2));
             edges.add(Map.of("u", 1, "v", 0, "w", 3));
@@ -87,7 +94,7 @@ public class DataGenerator {
             edges.add(Map.of("u", 3, "v", 2, "w", 4));
         }
 
-// Create JSON object
+// Build JSON object
         Map<String, Object> json = new LinkedHashMap<>();
         json.put("directed", directed);
         json.put("n", n);
@@ -101,9 +108,9 @@ public class DataGenerator {
             gson.toJson(json, fw);
         }
 
-// Print summary line for the report
+// Print concise summary (for report table)
         System.out.printf(
-                "%-18s | %8d | %5d | %7.2f | %-7s | %-9s%n",
+                "%-20s | %8d | %5d | %7.2f | %-7s | %-9s%n",
                 filename.replace("data/", ""),
                 n,
                 edges.size(),
