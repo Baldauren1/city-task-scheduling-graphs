@@ -39,11 +39,15 @@ public class JsonResultWriter {
         metrics.put("Longest", m4.toString());
         root.put("metrics", metrics);
 
-        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        Gson gson = new GsonBuilder()
+                .disableHtmlEscaping()
+                .setPrettyPrinting()
+                .create();
+
         try (FileWriter fw = new FileWriter(path)) {
             gson.toJson(root, fw);
         }
 
-        System.out.println("JSON saved → " + path);
+        System.out.println("JSON saved -> " + path);
     }
 }
