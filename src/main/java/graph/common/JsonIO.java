@@ -2,7 +2,6 @@ package graph.common;
 
 import com.google.gson.*;
 import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
 
 public class JsonIO {
@@ -33,29 +32,6 @@ public class JsonIO {
                 : "edge";
 
         return new LoadedGraph(g, source, weightModel);
-    }
-
-    public static void writeGraph(String path, Graph g, int source, String weightModel) throws IOException {
-        Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        JsonObject obj = new JsonObject();
-        obj.addProperty("directed", g.directed);
-        obj.addProperty("n", g.n);
-
-        JsonArray arr = new JsonArray();
-        for (var e : g.edges) {
-            JsonObject edge = new JsonObject();
-            edge.addProperty("u", e.u);
-            edge.addProperty("v", e.v);
-            edge.addProperty("w", e.w);
-            arr.add(edge);
-        }
-        obj.add("edges", arr);
-        obj.addProperty("source", source);
-        obj.addProperty("weight_model", weightModel);
-
-        try (FileWriter fw = new FileWriter(path)) {
-            gson.toJson(obj, fw);
-        }
     }
 
     public static class LoadedGraph {

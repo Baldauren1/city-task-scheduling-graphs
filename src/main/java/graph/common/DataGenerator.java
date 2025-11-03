@@ -19,7 +19,7 @@ public class DataGenerator {
 
     public static void main(String[] args) throws IOException {
         new java.io.File("data").mkdirs();
-//For report
+//For report -------
         System.out.println("------------------------------------------------------------");
         System.out.println(" Dataset | Vertices | Edges | Density | Type | Directed ");
         System.out.println("------------------------------------------------------------");
