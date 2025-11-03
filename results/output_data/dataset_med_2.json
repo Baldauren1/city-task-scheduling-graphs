@@ -1,0 +1,105 @@
+{
+  "shortest_distances": [
+    3,
+    5,
+    6,
+    5,
+    3,
+    5,
+    4,
+    4,
+    3,
+    4,
+    3,
+    8,
+    2,
+    8,
+    0
+  ],
+  "scc_list": [
+    [
+      14
+    ],
+    [
+      13
+    ],
+    [
+      12
+    ],
+    [
+      11
+    ],
+    [
+      10
+    ],
+    [
+      9
+    ],
+    [
+      7
+    ],
+    [
+      8
+    ],
+    [
+      6
+    ],
+    [
+      5
+    ],
+    [
+      4
+    ],
+    [
+      3
+    ],
+    [
+      2
+    ],
+    [
+      1
+    ],
+    [
+      0
+    ]
+  ],
+  "topological_order": [
+    14,
+    13,
+    12,
+    11,
+    10,
+    9,
+    8,
+    6,
+    7,
+    5,
+    4,
+    3,
+    2,
+    1,
+    0
+  ],
+  "metrics": {
+    "SCC": "time=0ms, dfsCalls=15, dfsEdges=104, kahnPushes=0, kahnPops=0, relax=0",
+    "Shortest": "time=0ms, dfsCalls=0, dfsEdges=0, kahnPushes=0, kahnPops=0, relax=104",
+    "Longest": "time=0ms, dfsCalls=0, dfsEdges=0, kahnPushes=0, kahnPops=0, relax=87",
+    "Topo": "time=0ms, dfsCalls=0, dfsEdges=0, kahnPushes=14, kahnPops=15, relax=0"
+  },
+  "scc_count": 15,
+  "critical_path": [
+    14,
+    13,
+    12,
+    11,
+    10,
+    9,
+    8,
+    7,
+    5,
+    3,
+    2,
+    0
+  ],
+  "critical_length": 68
+}

@@ -1,0 +1,10 @@
+dataset,nodes,edges,scc_time,topo_time,shortest_time,longest_time,dfsCalls,dfsEdges,relaxations
+data\dataset_large_1,22,119,0,0,0,0,22,119,0
+data\dataset_large_2,30,429,0,0,0,0,30,429,368
+data\dataset_large_3,45,1390,0,0,0,0,45,1390,0
+data\dataset_med_1,12,43,0,0,0,0,12,43,0
+data\dataset_med_2,15,104,0,0,0,0,15,104,87
+data\dataset_med_3,18,126,0,0,0,0,18,126,0
+data\dataset_small_1,6,10,0,0,0,0,6,10,0
+data\dataset_small_2,8,22,0,0,0,0,8,22,20
+data\dataset_small_3,9,25,0,0,0,0,9,25,0

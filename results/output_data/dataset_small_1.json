@@ -1,0 +1,33 @@
+{
+  "shortest_distances": [
+    0,
+    2305843009213693951
+  ],
+  "scc_list": [
+    [
+      1,
+      2,
+      4,
+      3,
+      0
+    ],
+    [
+      5
+    ]
+  ],
+  "topological_order": [
+    0,
+    1
+  ],
+  "metrics": {
+    "SCC": "time=0ms, dfsCalls=6, dfsEdges=10, kahnPushes=0, kahnPops=0, relax=0",
+    "Shortest": "time=0ms, dfsCalls=0, dfsEdges=0, kahnPushes=0, kahnPops=0, relax=0",
+    "Longest": "time=0ms, dfsCalls=0, dfsEdges=0, kahnPushes=0, kahnPops=0, relax=0",
+    "Topo": "time=0ms, dfsCalls=0, dfsEdges=0, kahnPushes=0, kahnPops=2, relax=0"
+  },
+  "scc_count": 2,
+  "critical_path": [
+    0
+  ],
+  "critical_length": 0
+}
