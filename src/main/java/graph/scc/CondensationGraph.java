@@ -4,6 +4,10 @@ import graph.common.Edge;
 import graph.common.Graph;
 import java.util.*;
 
+/**
+ * Builds a condensation graph (DAG) from SCCs.
+ * Each component becomes a node; edges connect different components.
+ */
 public class CondensationGraph {
     public final Graph dag;
     public final int[] compId;
@@ -13,11 +17,11 @@ public class CondensationGraph {
         compCount = comps.size();
         dag = new Graph(compCount, true);
         compId = new int[g.n];
-        for (int i = 0; i < compCount; i++) {
+        for (int i = 0; i < compCount; i++) {// Assign component IDs to vertices
             for (int v : comps.get(i)) compId[v] = i;
         }
 
-        Set<Long> seen = new HashSet<>();
+        Set<Long> seen = new HashSet<>(); // Add edges between components and no duplicates
         for (Edge e : g.edges) {
             int cu = compId[e.u];
             int cv = compId[e.v];

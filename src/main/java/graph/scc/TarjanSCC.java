@@ -4,6 +4,10 @@ import graph.common.Graph;
 import graph.common.Metrics;
 import java.util.*;
 
+/**
+ * Tarjan's algorithm for finding strongly connected components (SCCs).
+ * Runs in O(V + E) time using DFS and a stack.
+ */
 public class TarjanSCC {
     private final Graph g;
     private final int n;
@@ -21,6 +25,7 @@ public class TarjanSCC {
         onStack = new boolean[n];
     }
 
+/** Executes the Tarjan SCC algorithm and returns a list of components. */
     public List<List<Integer>> run() {
         metrics.start();
         for (int v = 0; v < n; v++) {
@@ -30,6 +35,7 @@ public class TarjanSCC {
         return components;
     }
 
+    /** Recursive DFS helper for discovering SCCs. */
     private void dfs(int v) {
         metrics.dfsCalls++;
         index[v] = idx;
@@ -49,7 +55,7 @@ public class TarjanSCC {
             }
         }
 
-        if (lowlink[v] == index[v]) {
+        if (lowlink[v] == index[v]) {// Root node -> extract new SCC
             List<Integer> comp = new ArrayList<>();
             int w;
             do {

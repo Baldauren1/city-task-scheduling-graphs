@@ -4,6 +4,10 @@ import graph.common.Graph;
 import graph.common.Metrics;
 import java.util.*;
 
+/**
+ * Performs topological sorting using Kahn's algorithm.
+ * Works only on acyclic directed graphs (DAGs).
+ */
 public class KahnTopologicalSort {
     private final Graph g;
     private final Metrics metrics;
@@ -12,6 +16,7 @@ public class KahnTopologicalSort {
         this.g = g; this.metrics = m;
     }
 
+/** Returns a topological order of vertices or throws if a cycle exists. */
     public List<Integer> sort() {
         metrics.start();
         int n = g.n;
@@ -21,7 +26,7 @@ public class KahnTopologicalSort {
         for (int i = 0; i < n; i++) if (indeg[i] == 0) q.add(i);
         List<Integer> order = new ArrayList<>();
 
-        while (!q.isEmpty()) {
+        while (!q.isEmpty()) {// Process queue in BFS-like manner
             metrics.kahnPops++;
             int u = q.remove();
             order.add(u);

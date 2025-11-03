@@ -6,7 +6,9 @@ import graph.common.Metrics;
 import graph.topo.KahnTopologicalSort;
 import java.util.*;
 
-public class DAGLongestPath {
+/** Computes the longest path in a Directed Acyclic Graph (DAG).*/
+
+ public class DAGLongestPath {
     private final Graph dag;
     private final List<Integer> topo;
     private final Metrics metrics;
@@ -16,6 +18,9 @@ public class DAGLongestPath {
         topo = new KahnTopologicalSort(dag, new Metrics()).sort();
     }
 
+    /**
+     * Initializes the longest path solver with a given DAG and metrics tracker.
+     */
     public Result longestFrom(int src) {
         int n = dag.n;
         long NEG_INF = Long.MIN_VALUE / 4;
@@ -40,6 +45,9 @@ public class DAGLongestPath {
         return new Result(dist, parent);
     }
 
+    /**
+     * Container for returning both distance and predecessor arrays.
+     */
     public static class Result {
         public final long[] dist;
         public final int[] parent;
